@@ -1,1 +1,1 @@
-# prubea-tecnica
+# prueba-tecnica
