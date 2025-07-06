@@ -1,0 +1,9 @@
+yfinance
+pandas
+numpy
+lightgbm
+scikit-learn
+streamlit
+plotly
+alpha_vantage
+ccxt
