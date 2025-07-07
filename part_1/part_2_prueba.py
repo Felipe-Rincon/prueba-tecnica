@@ -7,8 +7,8 @@ from sklearn.model_selection import TimeSeriesSplit
 from ta.volatility import AverageTrueRange
 from ta.momentum import RSIIndicator
 from sklearn.metrics import mean_absolute_error
-
-## 1. Obtención de datos de Binance
+from datetime import datetime, timedelta
+# 1. Obtención de datos de Binance
 def get_crypto_data(symbol='BTC/USDT', timeframe='1d', limit=2000):
     exchange = ccxt.binance()
     ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=limit)
@@ -16,6 +16,8 @@ def get_crypto_data(symbol='BTC/USDT', timeframe='1d', limit=2000):
     df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
     df.set_index('timestamp', inplace=True)
     return df
+
+
 
 ## 2. Feature Engineering para Crypto
 def create_features(df):
