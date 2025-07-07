@@ -7,3 +7,4 @@ streamlit
 plotly
 alpha_vantage
 ccxt
+ta
