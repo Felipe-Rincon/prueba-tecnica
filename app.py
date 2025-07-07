@@ -39,6 +39,7 @@ if st.session_state["authentication_status"]:
     part_1 = st.Page("pages_app/1_part_1.py", title="Parte 1", icon=":material/app_registration:")
     
     part_2_scenario_1 = st.Page("pages_app/2_part_2_scenario_1.py", title="Parte 2 - 1", icon=":material/app_registration:")
+    part_2_scenario_2 = st.Page("pages_app/3_part_2_scenario_2.py", title="Parte 2 - 2", icon=":material/app_registration:")
     
     part_3 = st.Page("pages_app/4_part_3.py", title="Parte 3", icon=":material/app_registration:")
 
@@ -46,7 +47,7 @@ if st.session_state["authentication_status"]:
         {
             "Menú": [menu_page],
             "Parte_1": [part_1],
-            "Parte_2": [part_2_scenario_1],
+            "Parte_2": [part_2_scenario_1, part_2_scenario_2],
             "Parte_3": [part_3]
 
         }

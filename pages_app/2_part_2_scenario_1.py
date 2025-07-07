@@ -25,10 +25,10 @@ if st.button("Predict Next Hour"):
             resultados = backtester.run()
 
             if not resultados.empty:
-                st.subheader("📊 Results of the Backtesting")
+                st.subheader("Results of the Backtesting")
                 st.dataframe(resultados)
 
-                st.subheader("📌 Average Metrics")
+                st.subheader("Average Metrics")
                 st.metric("Accuracy", f"{resultados['accuracy'].mean():.2%}")
                 st.metric("F1-Score", f"{resultados['f1'].mean():.2%}")
                 st.metric("Cumulative Return", f"{resultados['return'].mean():.2%}")

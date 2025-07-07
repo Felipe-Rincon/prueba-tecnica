@@ -29,3 +29,15 @@ def fetch_binance_data(symbol='BTC/USDT', timeframe='1h', limit=10000):
     except Exception as e:
         print(f"Error downloading data {e}")
         return None
+    
+    
+def get_crypto_data(symbol='BTC/USDT', timeframe='1d', limit=2000):
+    exchange = ccxt.binance()
+
+    ohlcv = exchange.fetch_ohlcv(symbol, timeframe, limit=limit)
+
+    df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df.set_index('timestamp', inplace=True)
+    
+    return df
