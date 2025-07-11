@@ -16,5 +16,5 @@ async def add_headers(request: Request, call_next):
 
 @app.get("/")
 async def home():
-    subprocess.Popen(["streamlit", "run", "app_streamlit.py", "--server.port=8080"])
+    subprocess.Popen(["streamlit", "run", "app_streamlit.py", "--server.port=$PORT"])
     return {"message": "Streamlit se está ejecutando en segundo plano..."}
