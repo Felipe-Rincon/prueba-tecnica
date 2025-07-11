@@ -10,3 +10,4 @@ ccxt
 ta
 fastapi
 uvicorn
+httpx
