@@ -9,3 +9,4 @@ alpha_vantage
 ccxt
 ta
 fastapi
+uvicorn
