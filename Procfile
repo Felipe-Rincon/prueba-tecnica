@@ -1,3 +1,3 @@
-streamlit run app_streamlit.py --server.port=$PORT
+web: streamlit run app_streamlit.py --server.port=$PORT
 
 #web: python app.py
