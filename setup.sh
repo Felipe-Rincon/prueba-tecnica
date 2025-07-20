@@ -1,8 +1,11 @@
 #!/bin/bash
 
 # --- 1. Instalar NGINX y herramientas esenciales ---
-apt-get update && apt-get install -y nginx gettext-base apt-utils
-
+apt-get update && apt-get install -y --no-install-recommends \
+    nginx \
+    gettext-base \
+    apt-utils
+    
 # --- 2. Crear directorio de configuración si no existe ---
 mkdir -p /etc/nginx/conf.d/
 
