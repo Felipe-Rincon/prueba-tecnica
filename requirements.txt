@@ -11,3 +11,6 @@ ta
 fastapi
 uvicorn
 httpx
+envsubst
+nginx-conf
+gunicorn
