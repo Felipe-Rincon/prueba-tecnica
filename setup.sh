@@ -1,20 +1,12 @@
 #!/bin/bash
+# Instala NGINX y envsubst (para reemplazar $PORT)
+apt-get update && apt-get install -y nginx gettext-base
 
-# Instalar NGINX (forzando la instalación aunque Railway ya lo tenga)
-apt-get update && apt-get install -y --reinstall nginx
+# Genera la configuración final de NGINX
+envsubst '$PORT' < nginx.conf > /etc/nginx/nginx.conf
 
-# Reemplazar $PORT en tiempo real (crucial para Railway)
-envsubst '$PORT' < /app/nginx.conf > /etc/nginx/nginx.conf
+# Inicia NGINX en segundo plano
+nginx &
 
-# Iniciar NGINX en primer plano
-nginx -g "daemon off;" &
-
-# Iniciar Streamlit en SEGUNDO PLANO (con &)
-streamlit run /app/app_streamlit.py \
-    --server.port=8501 \
-    --server.headless=true \
-    --server.enableCORS=false \
-    --server.enableXsrfProtection=true &
-    
-# Mantener el contenedor en ejecución
-tail -f /dev/null
+# Inicia Streamlit en el puerto interno 8501
+streamlit run app_streamlit.py --server.port=8501 --server.headless=true

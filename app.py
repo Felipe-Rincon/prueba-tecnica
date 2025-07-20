@@ -1,74 +1,60 @@
-# from fastapi import FastAPI, Request
-# from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
-# import subprocess
-# #streamlit run app.py --server.port=$PORT
-# app = FastAPI()
+import streamlit as st
 
-# @app.middleware("http")
-# async def add_headers(request: Request, call_next):
-#     response = await call_next(request)
-#     response.headers.update({
-#         "X-Frame-Options": "DENY",
-#         "X-Content-Type-Options": "nosniff",
-#         "Content-Security-Policy": "default-src 'self'"
-#     })
-#     return response
+st.set_page_config(layout="wide")
 
-# @app.get("/")
-# async def home():
-#     subprocess.Popen(["streamlit", "run", "app_streamlit.py", "--server.port=8501"])
-#     return {"message": "Streamlit se está ejecutando en segundo plano..."}
-from fastapi import FastAPI, Request
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
-import httpx
-import os
-import subprocess
-import uvicorn
+if "authentication_status" not in st.session_state:
+    hide_sidebar_css = """
+    <style>
+        section[data-testid="stSidebar"] {
+            display: none !important;
+        }
+        button[title="Toggle sidebar"] {
+            display: none !important;
+        }
+    </style>
+    """
+    st.markdown(hide_sidebar_css, unsafe_allow_html=True)
 
-app = FastAPI()
 
-# Configuración de Streamlit
-STREAMLIT_PORT = "8501"
-STREAMLIT_URL = f"http://localhost:{STREAMLIT_PORT}"
+def login():
+    st.session_state["authentication_status"] = True
 
-# Iniciar Streamlit en segundo plano
-subprocess.Popen([
-    "streamlit", "run", "app_streamlit.py",
-    f"--server.port={STREAMLIT_PORT}",
-    "--server.headless=true",
-    "--server.enableCORS=false",
-    "--server.enableXsrfProtection=false"
-])
+def logout():
+    st.session_state["authentication_status"] = None
 
-@app.middleware("http")
-async def add_security_headers(request: Request, call_next):
-    response = await call_next(request)
-    response.headers.update({
-        "X-Frame-Options": "DENY",
-        "X-Content-Type-Options": "nosniff",
-        "Content-Security-Policy": "default-src 'self'"
-    })
-    return response
+if "authentication_status" not in st.session_state:
+    st.session_state["authentication_status"] = None
 
-@app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "WEBSOCKET"])
-async def proxy_to_streamlit(request: Request, path: str):
-    async with httpx.AsyncClient(base_url=STREAMLIT_URL) as client:
-        try:
-            response = await client.request(
-                request.method,
-                f"/{path}",
-                headers=dict(request.headers),
-                params=request.query_params,
-                content=await request.body()
-            )
-            return HTMLResponse(
-                content=response.content,
-                status_code=response.status_code,
-                headers=dict(response.headers)
-            )
-        except httpx.ConnectError:
-            return HTMLResponse("Streamlit backend not available", status_code=503)
+if st.session_state["authentication_status"] is None:
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8080")))
+    st.title("Prueba Tecnica")
+    if st.button("Log in"):
+        login()
+        st.rerun()
+
+if st.session_state["authentication_status"]:
+
+
+    menu_page = st.Page("pages_app/0_menu.py", title="Menú", icon=":material/menu:")
+    part_1 = st.Page("pages_app/1_part_1.py", title="Parte 1", icon=":material/app_registration:")
+    
+    part_2_scenario_1 = st.Page("pages_app/2_part_2_scenario_1.py", title="Parte 2 - 1", icon=":material/app_registration:")
+    part_2_scenario_2 = st.Page("pages_app/3_part_2_scenario_2.py", title="Parte 2 - 2", icon=":material/app_registration:")
+    
+    part_3 = st.Page("pages_app/4_part_3.py", title="Parte 3", icon=":material/app_registration:")
+
+    pg = st.navigation(
+        {
+            "Menú": [menu_page],
+            "Parte_1": [part_1],
+            "Parte_2": [part_2_scenario_1, part_2_scenario_2],
+            "Parte_3": [part_3]
+
+        }
+    )
+
+    pg.run()
+
+    if st.button("Log out"):
+        logout()
+        st.rerun()
