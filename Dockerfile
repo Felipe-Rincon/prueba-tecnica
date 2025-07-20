@@ -46,7 +46,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Configura NGINX (reemplaza $PORT y asegura permisos)
 RUN envsubst '$PORT' < nginx.conf > /etc/nginx/nginx.conf && \
-    chmod 644 /etc/nginx/nginx.conf  # <-- Permisos adecuados
+    chmod 644 /etc/nginx/nginx.conf 
 
 # Expone el puerto 80 (Railway manejará el puerto externo)
 EXPOSE 80
