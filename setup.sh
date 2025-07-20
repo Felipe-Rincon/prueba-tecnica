@@ -1,15 +1,11 @@
 #!/bin/bash
-
-# Instalar NGINX si no está presente
+# Instalar NGINX si no existe
 if ! command -v nginx &> /dev/null; then
     apt-get update && apt-get install -y nginx
 fi
 
-# Reemplazar $PORT en la configuración
-envsubst '$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+# Iniciar NGINX en segundo plano
+nginx -c /app/nginx.conf -g "daemon off;" &
 
-# Iniciar NGINX
-nginx -g "daemon on;"
-
-# Esperar un momento para que NGINX se inicie
-sleep 2
+# Iniciar Streamlit
+streamlit run app_streamlit.py --server.port=8501 --server.headless=true --server.enableCORS=false
