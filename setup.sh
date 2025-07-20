@@ -5,8 +5,11 @@ if ! command -v nginx &> /dev/null; then
     apt-get update && apt-get install -y nginx
 fi
 
-# Copiar configuración de NGINX
-cp nginx.conf /etc/nginx/nginx.conf
+# Reemplazar $PORT en la configuración
+envsubst '$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
-# Iniciar NGINX en segundo plano
-nginx -g "daemon off;" &
+# Iniciar NGINX
+nginx -g "daemon on;"
+
+# Esperar un momento para que NGINX se inicie
+sleep 2
