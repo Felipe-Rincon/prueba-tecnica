@@ -1,12 +1,13 @@
 #!/bin/bash
-# Instala NGINX y envsubst (para reemplazar $PORT)
-apt-get update && apt-get install -y nginx gettext-base
+# Instala herramientas para reemplazar variables
+apt-get update && apt-get install -y gettext-base
 
-# Genera la configuración final de NGINX
-envsubst '$PORT' < nginx.conf > /etc/nginx/nginx.conf
+# Reemplaza $PORT en nginx.conf
+envsubst '$PORT' < /app/nginx.conf > /tmp/nginx.conf
+mv /tmp/nginx.conf /etc/nginx/nginx.conf
 
-# Inicia NGINX en segundo plano
+# Inicia NGINX
+nginx -g "daemon off;" &
 
-
-# Inicia Streamlit en el puerto interno 8501
-nginx & streamlit run app.py --server.port=8501 --server.headless=true
+# Inicia Streamlit en otro puerto
+streamlit run app_streamlit.py --server.port=8501 --server.headless=true
