@@ -14,4 +14,3 @@ httpx
 envsubst
 nginx-conf
 gunicorn
-gettext-base
