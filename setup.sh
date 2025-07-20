@@ -9,4 +9,4 @@ envsubst '$PORT' < nginx.conf > /etc/nginx/nginx.conf
 nginx &
 
 # Inicia Streamlit en el puerto interno 8501
-streamlit run app_streamlit.py --server.port=8501 --server.headless=true
+streamlit run app.py --server.port=8501 --server.headless=true
