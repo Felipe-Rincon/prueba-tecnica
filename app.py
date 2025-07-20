@@ -1,11 +1,6 @@
 import streamlit as st
 
-st.set_page_config(layout="wide", headers={
-        "X-Frame-Options": "DENY",
-        "X-Content-Type-Options": "nosniff",
-        "Content-Security-Policy": "default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'",
-        "Referrer-Policy": "strict-origin-when-cross-origin"
-    })
+st.set_page_config(layout="wide")
 
 if "authentication_status" not in st.session_state:
     hide_sidebar_css = """
