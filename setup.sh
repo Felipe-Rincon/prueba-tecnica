@@ -15,4 +15,4 @@ mv /tmp/nginx.conf /etc/nginx/nginx.conf  # Mueve el archivo generado
 nginx -g "daemon off;" &
 
 # --- 5. Iniciar Streamlit ---
-streamlit run app_streamlit.py --server.port=8501 --server.headless=true
+streamlit run app.py --server.port=8501 --server.headless=true
