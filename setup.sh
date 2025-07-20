@@ -1,13 +1,18 @@
 #!/bin/bash
-# Instala herramientas para reemplazar variables
-apt-get update && apt-get install -y gettext-base
 
-# Reemplaza $PORT en nginx.conf
+# --- 1. Instalar NGINX y herramientas esenciales ---
+apt-get update && apt-get install -y nginx gettext-base
+
+# --- 2. Crear directorio de configuración si no existe ---
+mkdir -p /etc/nginx/conf.d/
+
+# --- 3. Reemplazar $PORT usando envsubst ---
+# (Asegúrate de que nginx.conf esté en /app)
 envsubst '$PORT' < /app/nginx.conf > /tmp/nginx.conf
-mv /tmp/nginx.conf /etc/nginx/nginx.conf
+mv /tmp/nginx.conf /etc/nginx/nginx.conf  # Mueve el archivo generado
 
-# Inicia NGINX
+# --- 4. Iniciar NGINX ---
 nginx -g "daemon off;" &
 
-# Inicia Streamlit en otro puerto
-streamlit run app.py --server.port=8501 --server.headless=true
+# --- 5. Iniciar Streamlit ---
+streamlit run app_streamlit.py --server.port=8501 --server.headless=true
