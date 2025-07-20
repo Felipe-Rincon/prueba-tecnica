@@ -4,7 +4,7 @@ FROM python:3.9-slim
 # Instala NGINX y dependencias del sistema
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    nginx \
+    nginx-extras \
     gettext-base && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -24,5 +24,5 @@ EXPOSE 80
 
 # Comando de inicio (NGINX + Streamlit)
 CMD service nginx start && \
-    streamlit run app.py --server.port=8501 --server.headless=true
+    streamlit run app.py --server.port=8501 --server.headless=true --server.enableCORS=false
 
